@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import urllib2
 import re
 import json
-import subprocess
 
 app = Flask(__name__)
 
@@ -29,9 +28,9 @@ def get_data(cf,ch, hr):
 	else:
 		codeforces=0
 
-	proc = subprocess.Popen(["curl https://www.hackerrank.com/" + hr + "?hr_r=1", "~"], stdout=subprocess.PIPE, shell=True)
-	(out, err) = proc.communicate()
-	arr = out.split('%22')
+	url = "https://www.hackerrank.com/" + hr + "?hr_r=1"
+	response = urllib2.urlopen(url).read()
+	arr = response.split('%22')
 	arr_i = 0
 	count = 0
 	for ele in arr:
