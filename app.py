@@ -1,4 +1,4 @@
-from flask import Flask 
+from flask import Flask,render_template
 from bs4 import BeautifulSoup
 import urllib2
 import re
@@ -19,7 +19,7 @@ def get_data(cf,ch, hr):
 	res = []
 	for x in ratings:
 		res.append(re.sub("[\(\[].*?[\)\]]", "", str(x)))
-	codechef = res[0]
+	codechef = res[0].split('>')[1].split('<')[0]
 	url = 'http://www.codeforces.com/api/user.info?handles=' + cf
 	response = urllib2.urlopen(url).read()
 	p_res = json.loads(response)
@@ -46,7 +46,11 @@ def get_data(cf,ch, hr):
 	out["codechef"] = codechef
 	out["codeforces"] = codeforces
 	out["hackerrank"] = hackerrank
-	return json.dumps(out)
+	hands = {}
+	hands["codechef"] = ch
+	hands["codeforces"] = cf
+	hands["hackerrank"] = hr
+	return render_template('angelHack.html',res=out,handles=hands)
 
 if __name__=='__main__':
 	app.run(debug=True)

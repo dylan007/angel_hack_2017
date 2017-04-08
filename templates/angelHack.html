@@ -3,8 +3,8 @@
 
 	<head>
 		<title>Mayank</title>
-		<link rel="stylesheet" type="text/css" href="angelHack.css"/>
-		<script type='text/javascript' src='angelHack.js'></script>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='angelHack.css') }}"/>
+		<!-- <script type='text/javascript' src='angelHack.js'></script> -->
 	
 		
 	</head>
@@ -50,21 +50,21 @@
 				<tbody>
 				<tr>
 				<td id = "one">Hackerank</td>
-				<td id = "two">-</td>
-				<td id = "one">-</td>
+				<td id = "two">{{handles.hackerrank}}</td>
+				<td id = "one">{{res.hackerrank}}</td>
 				</tr>
 
 				<tr>
-				<td id = "two">Codefences</td>
-				<td id = "one">-</td>
-				<td id = "two">-</td>
+				<td id = "two">Codeforces</td>
+				<td id = "one">{{handles.codeforces}}</td>
+				<td id = "two">{{res.codeforces}}</td>
 					
 				</tr>
 
 				<tr>
 				<td id = "one">CodeChef</td>
-				<td id = "two">-</td>
-				<td id = "one">-</td>
+				<td id = "two">{{handles.codechef}}</td>
+				<td id = "one">{{res.codechef}}</td>
 				</tr>
 
 				</tbody>
