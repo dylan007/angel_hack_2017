@@ -1,0 +1,130 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	font-family: "proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    color: #313131;
+}
+
+
+.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	background-color: #f4f4f6;
+	overflow: visible;
+	z-index: 1000;
+}
+
+
+.divider {
+
+	border-bottom: 1px solid #e6e6e8;
+	height: 1px;
+	top: 49px;
+	width: auto;
+	position: relative;
+
+}
+
+
+
+h2 {
+
+	font-size: 1.15385em;
+	font-weight: 600;
+	margin: 1.3em 1.7em 0;
+	
+}
+
+
+#h1,#h2,#h3 {
+
+	display: inline-block;
+	float: right;
+}
+
+#h1 {
+
+	margin: 1em 0 0 80;
+}
+
+#h2,#h3 {
+
+	margin: 1em 0 0 60;
+
+}
+
+.profile {
+	display: inline-block;
+	margin-top: 100px;
+	margin-left: 100px;
+}
+
+td {
+
+	text-align: center;
+	height: 10px;
+	font-size: 20px;
+
+}
+
+
+
+table {
+
+	height: 300px;
+	width: 70%;
+	margin-left: 180px;
+	font-family: sans-serif;
+}
+
+
+#one {
+	background-color: #b0c4de;
+}
+
+#two{
+	background-color: #f5f5f5;
+}
+
+#h {
+	background-color: #d3d3d3;
+	
+
+}
+
+#userTable {
+	margin-top: 50px;
+}
+
+
+.Sections {
+	text-align: left;
+	margin-left: 100px;
+	margin-right: 100px;
+	align-content: center;
+}
+
+
+
+.Sections h3 {
+	
+	font-size: 30px;
+	margin-top: 100px;
+
+}
+
+
+#personalInfo h3 {
+
+	font-size: 30px;
+	margin-top: 40px;
+	margin-left: 0px;
+}
