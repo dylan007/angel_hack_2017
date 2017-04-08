@@ -31,7 +31,10 @@ def get_data(cf,ch):
 		codeforces = int(p_res["result"][0]["rating"])
 	else:
 		codeforces=0
-	return str(codeforces)
+	out = {}
+	out["codechef"] = codechef
+	out["codeforces"] = codeforces
+	return json.dumps(out)
 
 if __name__=='__main__':
 	app.run(debug=True)
