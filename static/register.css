@@ -33,7 +33,7 @@ form {
 
 #f {
 	text-align: left;
-	
+	margin: 20px;
 }
 
 #h {
@@ -82,11 +82,17 @@ button {
 
 textarea {
 	border-radius: 10px;
+	border-style: none;
+	outline: none;
+	padding: 10px;
 }
 
 input{
 	border-radius: 5px;
 	margin-left: 20px;
+	border-style: none;
+	padding: 8px;
+	outline: none;
 }
 
 #b1 {

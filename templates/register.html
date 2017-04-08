@@ -2,18 +2,45 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
+	<title>Register</title>
+	<link rel="stylesheet" type="text/css" href="static/register.css"/>
 </head>
 
 <body>
-	<h1> REGISTER </h1>
-	{{alreadyexists}}
 
 	<form action="/register" method='post'>
-		Username: <input type="text" name="username" required><br>
-		Email id: <input type="email" name="emailid" required><br>
-		Password: <input type="password" name="password" required><br>
-		<input type="submit" name="SUBMIT">
+	<div id = "f">
 
+		<h1 id="h">SIGNUP</h1>
+			
+		<div style="text-align: center; padding: 10px; font-size: 14px;">{{alreadyexists}}</div>
+
+		<h3>USERNAME:</h3>
+		<input type= "text" name="username" ><br><br>
+
+
+		<h3>BIRTHDAY:</h3>
+	  	<input type="date" name="birthday"><br><br>
+
+	  	<h3>CONTACT NO:</h3>
+		<input type= "tel" name= "contact"><br><br>
+		
+		<h3>E-MAIL ID:</h3>
+		<input type= "email" name= "emailid"><br><br>
+
+		<h3>PASSWORD:</h3>
+	  	<input type="password" name="password"><br><br>
+
+		<h3>ABOUT YOURSELF:</h3>
+		<textarea name= "about" rows= "10" cols= "60"></textarea><br><br>
+
+		
+		<button id="b1" type="submit" value="Submit">SUBMIT</button>
+		<button id="b2">RESET</button><br><br>
+
+		
+		<i>Already signed up? <a href= "/login"> Click here</a></i>
+
+	</div>
 	</form>
 </body>

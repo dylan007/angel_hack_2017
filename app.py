@@ -19,11 +19,17 @@ class user(db.Model):
 	name = db.Column(db.String(100))
 	email = db.Column(db.String(100))
 	password = db.Column(db.String(100))
+	contact_no = db.Column(db.String(20))
+	birthday = db.Column(db.String(20))
+	about = db.Column(db.String(500))
 
-	def __init__(self,name,email,password):
+	def __init__(self,name,email,password, contact_no, birthday, about):
 		self.name = name
 		self.email = email
 		self.password = password
+		self.contact_no = contact_no
+		self.birthday = birthday
+		self.about = about
 
 class handles(db.Model):
 	handle_id = db.Column(db.Integer, primary_key = True)
@@ -68,7 +74,7 @@ def register():
 	if request.method == 'GET':
 		return render_template('register.html')
 	elif request.method == 'POST':
-		tempuser = user(request.form['username'],request.form['emailid'],request.form['password'])
+		tempuser = user(request.form['username'],request.form['emailid'],request.form['password'], request.form['contact'], request.form['birthday'], request.form['about'])
 		tempusername = request.form['username']
 		alreadyexisting = user.query.filter_by(name=tempusername).count()
 
@@ -102,7 +108,7 @@ def profile(username):
 
 		if request.method == 'GET':
 			user_final_rating = calc_final_rating(user_ratings["codechef"], user_ratings["codeforces"], user_ratings["hackerrank"])
-			return render_template('profile.html',user=current_user.name, handles=hands, ratings=user_ratings, final_rating=user_final_rating)
+			return render_template('profile.html',user=current_user, handles=hands, ratings=user_ratings, final_rating=user_final_rating)
 		elif request.method == 'POST':
 			if account_handles is not None:
 				account_handles.codechef = request.form['codechef']
@@ -118,7 +124,7 @@ def profile(username):
 			hands["codeforces"] = account_handles.codeforces
 			hands["hackerrank"] = account_handles.hackerrank
 			user_final_rating = calc_final_rating(user_ratings["codechef"], user_ratings["codeforces"], user_ratings["hackerrank"])
-			return render_template('profile.html',user=current_user.name, msg="added", handles=hands, ratings=user_ratings, final_rating=user_final_rating)
+			return render_template('profile.html',user=current_user, msg="added", handles=hands, ratings=user_ratings, final_rating=user_final_rating)
 	else:
 		return redirect('/')
 
