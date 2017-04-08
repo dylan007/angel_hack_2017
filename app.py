@@ -137,8 +137,11 @@ def index():
 		return render_template('index.html')
 
 def calc_final_rating(ch, cf, hr):
+	k1 = 2.0522
+	k2 = 2.3795
+	k3 = 6.5047
 	ch, cf, hr = float(ch), float(cf), float(hr)
-	final_rating = (ch + cf + hr) / 3
+	final_rating = (k1*ch + k2*cf + k3*hr) / (k1+k2+k3)
 	return final_rating
 
 
@@ -150,14 +153,14 @@ def get_data(ch,cf, hr):
 	res = []
 	for x in ratings:
 		res.append(re.sub("[\(\[].*?[\)\]]", "", str(x)))
-	codechef = res[0].split('>')[1].split('<')[0]
+	codechef = float(res[0].split('>')[1].split('<')[0])
 	url = 'http://www.codeforces.com/api/user.info?handles=' + cf
 	response = urllib2.urlopen(url).read()
 	p_res = json.loads(response)
 	if "rating" in p_res["result"][0]:
-		codeforces = int(p_res["result"][0]["rating"])
+		codeforces = float(p_res["result"][0]["rating"])
 	else:
-		codeforces=0
+		codeforces=0.0
 
 	url = "https://www.hackerrank.com/" + hr + "?hr_r=1"
 	response = urllib2.urlopen(url).read()
@@ -171,12 +174,12 @@ def get_data(ch,cf, hr):
 		if arr_i == 16:
 			hackerrank = arr[count]
 			break
-	hackerrank = hackerrank[3:-3]
+	hackerrank = float(hackerrank[3:-3])
 
 	out = {}
-	out["codechef"] = codechef
-	out["codeforces"] = codeforces
-	out["hackerrank"] = hackerrank
+	out["codechef"] = (codechef/2951.0)*1000
+	out["codeforces"] = (codeforces/3534.0)*1000
+	out["hackerrank"] = (hackerrank/2938.07)*1000
 	return out
 
 if __name__=='__main__':
