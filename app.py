@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import urllib2
 import re
 import json
-import requests
+
 
 
 
@@ -15,7 +15,7 @@ def index():
 
 
 @app.route('/user/<ch>/<cf>')
-def get_data(cf):
+def get_data(cf,ch):
 	url = 'https://www.codechef.com/users/' + ch
 	response = urllib2.urlopen(url).read()
 	p_res = BeautifulSoup(response,'html.parser')
@@ -27,8 +27,11 @@ def get_data(cf):
 	url = 'http://www.codeforces.com/api/user.info?handles=' + cf
 	response = urllib2.urlopen(url).read()
 	p_res = json.loads(response)
-	codeforces = int(json.loads(response)["result"][0]["rating"])
-	
+	if "rating" in p_res["result"][0]:
+		codeforces = int(p_res["result"][0]["rating"])
+	else:
+		codeforces=0
+	return str(codeforces)
 
 if __name__=='__main__':
 	app.run(debug=True)
