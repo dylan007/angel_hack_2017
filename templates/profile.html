@@ -8,5 +8,13 @@
 <body>
 	<h1> Hello, {{user}} </h1>
 	<a href="{{user}}/logout"> Logout</a>
-	
+	<form action="/profile/{{user}}" method="post">
+		codechef<input type="text" name="codechef" />
+		codeforces<input type="text" name="codeforces" />
+		hackerrank<input type="text" name="hackerrank" />
+		<button type="submit">Submit</button>
+	</form>
+	{{msg}} <br />
+	codechef: {{handles.codechef}}, {{ratings.codechef}} <br />codeforces: {{handles.codeforces}}, {{ratings.codeforces}}<br />hackerrank: {{handles.hackerrank}}, {{ratings.hackerrank}}
+	<div>{{final_rating}}</div>
 </body>

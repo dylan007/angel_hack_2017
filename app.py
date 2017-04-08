@@ -26,7 +26,7 @@ class user(db.Model):
 		self.password = password
 
 class handles(db.Model):
-	handel_id = db.Column(db.Integer, primary_key = True)
+	handle_id = db.Column(db.Integer, primary_key = True)
 	codechef = db.Column(db.String(40))
 	codeforces = db.Column(db.String(40))
 	hackerrank = db.Column(db.String(40))
@@ -83,15 +83,42 @@ def register():
 @app.route('/profile/<username>', methods = ['GET','POST'])
 def profile(username):
 	if session.get('userID') is not None:
-		if request.method == 'GET':
-			current_user = user.query.filter_by(u_id = session.get('userID')).first()
-			return render_template('profile.html',user=current_user.name)
-		elif request.method == 'POST':
-			tempuserhandles = handles(request.form['title'],request.form['content'],session['userID'])
-			db.session.add(tempuserhandles)
-			db.session.commit()
+		current_user = user.query.filter_by(u_id = session.get('userID')).first()
+		hands = {}
+		user_ratings = {}
+		account_handles = handles.query.filter_by(user_id=session.get('userID')).first()
+		if account_handles is not None:
+			hands["codechef"] = account_handles.codechef
+			hands["codeforces"] = account_handles.codeforces
+			hands["hackerrank"] = account_handles.hackerrank
+			user_ratings = get_data(account_handles.codechef, account_handles.codeforces, account_handles.hackerrank)
+		else:
+			hands["codechef"] = "Set handle"
+			hands["codeforces"] = "Set handle"
+			hands["hackerrank"] = "Set handle"
+			user_ratings["codechef"] = "0"
+			user_ratings["codeforces"] = "0"
+			user_ratings["hackerrank"] = "0"
 
-			# userposts = handles.query.filter_by(user_id = session['userID'])
+		if request.method == 'GET':
+			user_final_rating = calc_final_rating(user_ratings["codechef"], user_ratings["codeforces"], user_ratings["hackerrank"])
+			return render_template('profile.html',user=current_user.name, handles=hands, ratings=user_ratings, final_rating=user_final_rating)
+		elif request.method == 'POST':
+			if account_handles is not None:
+				account_handles.codechef = request.form['codechef']
+				account_handles.codeforces = request.form['codeforces']
+				account_handles.hackerrank = request.form['hackerrank']				
+			else:
+				tempuserhandles = handles(request.form['codechef'],request.form['codeforces'],request.form['hackerrank'],session['userID'])
+				db.session.add(tempuserhandles)
+			db.session.commit()
+			account_handles = handles.query.filter_by(user_id=session.get('userID')).first()
+			user_ratings = get_data(account_handles.codechef, account_handles.codeforces, account_handles.hackerrank)
+			hands["codechef"] = account_handles.codechef
+			hands["codeforces"] = account_handles.codeforces
+			hands["hackerrank"] = account_handles.hackerrank
+			user_final_rating = calc_final_rating(user_ratings["codechef"], user_ratings["codeforces"], user_ratings["hackerrank"])
+			return render_template('profile.html',user=current_user.name, msg="added", handles=hands, ratings=user_ratings, final_rating=user_final_rating)
 	else:
 		return redirect('/')
 
@@ -109,9 +136,13 @@ def index():
 	else:
 		return render_template('index.html')
 
+def calc_final_rating(ch, cf, hr):
+	ch, cf, hr = float(ch), float(cf), float(hr)
+	final_rating = (ch + cf + hr) / 3
+	return final_rating
 
-@app.route('/user/<ch>/<cf>/<hr>')
-def get_data(cf,ch, hr):
+
+def get_data(ch,cf, hr):
 	url = 'https://www.codechef.com/users/' + ch
 	response = urllib2.urlopen(url).read()
 	p_res = BeautifulSoup(response,'html.parser')
@@ -146,11 +177,7 @@ def get_data(cf,ch, hr):
 	out["codechef"] = codechef
 	out["codeforces"] = codeforces
 	out["hackerrank"] = hackerrank
-	hands = {}
-	hands["codechef"] = ch
-	hands["codeforces"] = cf
-	hands["hackerrank"] = hr
-	return render_template('angelHack.html',res=out,handles=hands)
+	return out
 
 if __name__=='__main__':
 	app.run(debug=True)
